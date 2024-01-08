@@ -20,83 +20,111 @@ const defaultTheme = createTheme();
 const LoginForm = () => {
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState("");
 const navigate = useNavigate();
 
-const login = (e) => {
+const login = async (e) => {
   e.preventDefault();
-}
-  return ( 
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs"  >
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100vh',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              id="username"
-              label="Username"
-              name="username"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={() => navigate("/table")}
-            >
-              Login
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" >
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" >
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+
+  if (!username || !password) {
+    setError("Please enter both username and password.");
+    return;
+  }
+
+  setError("");
+
+  setLoading(true);
+
+  try {
+
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/table");
+    }, 1000);
+  } catch (error) {
+    setError("Invalid username or password. Please try again.");
+    setLoading(false);
+  }
+};
+
+return (
+  <ThemeProvider theme={defaultTheme}>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
+        <Typography component="h1" variant="h5">
+          Login
+        </Typography>
+        <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            id="username"
+            label="Username"
+            name="username"
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          {error && (
+            <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+              {error}
+            </Typography>
+          )}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            onClick={login}
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
-          </Box>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
-      </Container>
-    </ThemeProvider>
-   );
-}
+      </Box>
+    </Container>
+  </ThemeProvider>
+);
+};
 
 export default LoginForm;
