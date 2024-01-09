@@ -26,7 +26,7 @@ const DataTable = () => {
 
   return ( 
     <>
-     <TableContainer component={Paper}>
+     <TableContainer component={Paper} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <Table>
         <TableHead>
           <TableRow>

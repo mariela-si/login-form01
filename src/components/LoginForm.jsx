@@ -29,6 +29,7 @@ const login = async (e) => {
 
   if (!username || !password) {
     setError("Please enter both username and password.");
+    setLoading(false); 
     return;
   }
 
@@ -39,7 +40,6 @@ const login = async (e) => {
   try {
 
     setTimeout(() => {
-      setLoading(false);
       navigate("/table");
     }, 1000);
   } catch (error) {
@@ -50,7 +50,7 @@ const login = async (e) => {
 
 return (
   <ThemeProvider theme={defaultTheme}>
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
       <Box
         sx={{
@@ -63,7 +63,7 @@ return (
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" sx={{ fontSize: { xs: 'h6', sm: 'h5' } }}>
           Login
         </Typography>
         <Box component="form" onSubmit={login} noValidate sx={{ mt: 1 }}>
@@ -103,18 +103,17 @@ return (
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            onClick={login}
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}
           </Button>
-          <Grid container>
-            <Grid item xs>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
+            <Grid item xs={12} sm={6}>
               <Link href="#" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
